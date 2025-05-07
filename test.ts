@@ -29,8 +29,6 @@ function timeConversion(s: string): string {
   components[1] = hour.toString().padStart(2,'0');
   
   return components.slice(1,4).join(":")
-
-
 }
 
 // ------------------- *) Functional Paradigm -------------------------
@@ -191,25 +189,9 @@ function palindromeIndex2(s: string): number {
 // ------------------------ 3.2) Tower Breaker ################################
 function towerBreakers(n: number, m: number): number {
     // Write your code here
-  if (n === 1) return 1
-  if ((n % 2) === 0) return 2
-  if ((n % 2) !== 0) {
-    let limit = Math.round(Math.sqrt(m))
-    let factors = []
-    
-    for(let i = 1; i <= limit; i++){
-      if((m % i) === 0){
-        factors.push(i)
-        if(i !== m/i){
-          factors.push(m/i)
-        }
-      }
-    }
-    console.log(factors.sort((a, b) => a-b))
-    if(((factors.length-1) % 2) === 0) return 2
+    if (m === 1) return 2
+    if(n % 2 === 0) return 2
     return 1
-  }
-  return 0
 
 }
 
@@ -369,6 +351,24 @@ function truckTour3(petrolpumps: number[][]): number {
   // But problem states there will be a solution
   return totalFuel >= 0 ? start : -1;
 }
+
+// ----------------------- 4.1) sort ----------------------
+function gridChallenge(grid: string[]): string {    
+    let last = new Array(grid.length).fill('a')
+    let finalResult = 'YES'
+    for (let i = 0; i < grid.length; i++){
+        let array = grid[i].split("")
+        array.sort()
+        for(let j = 0; j<array.length; j++){
+          if(array[j] < last[j]){
+            return 'NO'
+          }          
+        }
+        last = array
+    }
+    return 'YES'
+}
+
 
 // ############################
 /*
@@ -878,3 +878,37 @@ function main() {
 }
 
 main();
+
+
+function mergeLists(head1, head2) {
+  // Edge cases: if one list is empty, return the other list
+  if (head1 === null && head2 === null) return null;
+  if (head1 === null) return head2;
+  if (head2 === null) return head1;
+  
+  // Create a dummy head to simplify the code
+  let dummy = new SinglyLinkedListNode(0);
+  let current = dummy;
+  
+  // Merge the lists by comparing node values
+  while (head1 !== null && head2 !== null) {
+    if (head1.data <= head2.data) {
+      current.next = head1;
+      head1 = head1.next;
+    } else {
+      current.next = head2;
+      head2 = head2.next;
+    }
+    current = current.next;
+  }
+  
+  // Attach the remaining list (one of them will be null)
+  if (head1 !== null) {
+    current.next = head1;
+  } else {
+    current.next = head2;
+  }
+  
+  // Return the merged list (skip the dummy head)
+  return dummy.next;
+}
